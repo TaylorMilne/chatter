@@ -1,8 +1,8 @@
 @extends(Config::get('chatter.master_file_extend'))
 
 @section(Config::get('chatter.yields.head'))
-	<link href="/vendor/devdojo/chatter/assets/css/chatter.css" rel="stylesheet">
-	<link href="/vendor/devdojo/chatter/assets/css/simplemde.min.css" rel="stylesheet">
+	<link href="{{asset('public/vendor/devdojo/chatter/assets/css/chatter.css')}}" rel="stylesheet">
+	<link href="{{asset('public/vendor/devdojo/chatter/assets/css/simplemde.min.css')}}" rel="stylesheet">
 @stop
 
 
@@ -12,8 +12,8 @@
 
 	<div id="chatter_header" style="background-color:{{ $discussion->color }}">
 		<div class="container">
-			<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
-			<h1>{{ $discussion->title }}</h1><span class="chatter_head_details">Posted In {{ Config::get('chatter.titles.category') }}<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
+			<a class="back_btn" href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
+			<h1>{{ $discussion->title }}</h1><span class="chatter_head_details">Posted In {{ Config::get('chatter.titles.category') }}<a class="chatter_cat" href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
 		</div>
 	</div>
 
@@ -180,7 +180,7 @@
 				@else
 
 					<div id="login_or_register">
-						<p>Please <a href="/{{ Config::get('chatter.routes.home') }}/login">login</a> or <a href="/{{ Config::get('chatter.routes.home') }}/register">register</a> to leave a response.</p>
+						<p>Please <a href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/login">login</a> or <a href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/register">register</a> to leave a response.</p>
 					</div>
 
 				@endif
@@ -203,11 +203,15 @@
 
 @if( $chatter_editor == 'tinymce' || empty($chatter_editor) )
 	<script>var chatter_editor = 'tinymce';</script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/vendor/tinymce/tinymce.min.js')}}"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/tinymce.js')}}"></script>
+
 @elseif($chatter_editor == 'simplemde')
 	<script>var chatter_editor = 'simplemde';</script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/simplemde.min.js')}}"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/chatter_simplemde.js')}}"></script>
 @endif
-<script src="/vendor/devdojo/chatter/assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="/vendor/devdojo/chatter/assets/js/tinymce.js"></script>
+
 <script>
 	var my_tinymce = tinyMCE;
 	$('document').ready(function(){
@@ -218,10 +222,6 @@
 
 	});
 </script>
-
-<script src="/vendor/devdojo/chatter/assets/js/simplemde.min.js"></script>
-<script src="/vendor/devdojo/chatter/assets/js/chatter_simplemde.js"></script>
-
 
 <script>
 	$('document').ready(function(){
@@ -246,7 +246,7 @@
 			
 			// dynamically create a new text area
 			container.prepend('<textarea id="post-edit-' + id + '">' + body.html() + '</textarea>');
-			container.append('<div class="chatter_update_actions"><button class="btn btn-success pull-right update_chatter_edit"  data-id="' + id + '" data-markdown="' + markdown + '"><i class="chatter-check"></i> Update Response</button><button href="/" class="btn btn-default pull-right cancel_chatter_edit" data-id="' + id + '"  data-markdown="' + markdown + '">Cancel</button></div>');
+			container.append('<div class="chatter_update_actions"><button class="btn btn-success pull-right update_chatter_edit"  data-id="' + id + '" data-markdown="' + markdown + '"><i class="chatter-check"></i> Update Response</button><button href="{{ Config::get('app.url') }}/" class="btn btn-default pull-right cancel_chatter_edit" data-id="' + id + '"  data-markdown="' + markdown + '">Cancel</button></div>');
 			
 			// create new editor from text area
 			if(markdown){
@@ -316,8 +316,7 @@
 
 	});
 
-
 </script>
-<script src="/vendor/devdojo/chatter/assets/js/chatter.js"></script>
+<script src="{{asset('public/vendor/devdojo/chatter/assets/js/chatter.js')}}"></script>
 
 @stop
