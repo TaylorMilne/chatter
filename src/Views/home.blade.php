@@ -1,22 +1,21 @@
 @extends(Config::get('chatter.master_file_extend'))
 
 @section(Config::get('chatter.yields.head'))
-    <link href="/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css" rel="stylesheet">
-	<link href="/vendor/devdojo/chatter/assets/css/chatter.css" rel="stylesheet">
+    <link href="{{asset('/public/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css')}}" rel="stylesheet">
+	<link href="{{asset('/public/vendor/devdojo/chatter/assets/css/chatter.css')}}" rel="stylesheet">
 	@if($chatter_editor == 'simplemde')
-		<link href="/vendor/devdojo/chatter/assets/css/simplemde.min.css" rel="stylesheet">
+		<link href="{{asset('/public/vendor/devdojo/chatter/assets/css/simplemde.min.css')}}" rel="stylesheet">
 	@endif
 @stop
 
 @section('content')
 
 <div id="chatter" class="chatter_home">
-
 	<div id="chatter_hero">
 		<div id="chatter_hero_dimmer"></div>
 		<?php $headline_logo = Config::get('chatter.headline_logo'); ?>
 		@if( isset( $headline_logo ) && !empty( $headline_logo ) )
-			<img src="{{ Config::get('chatter.headline_logo') }}">
+			<img src="{{ Config::get('app.url') }}/{{ Config::get('chatter.headline_logo') }}">
 		@else
 			<h1>{{ Config::get('chatter.headline') }}</h1>
 			<p>{{ Config::get('chatter.description') }}</p>
@@ -55,11 +54,11 @@
 	    		<!-- SIDEBAR -->
 	    		<div class="chatter_sidebar">
 					<button class="btn btn-primary" id="new_discussion_btn"><i class="chatter-new"></i> New {{ Config::get('chatter.titles.discussion') }}</button> 
-					<a href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-bubble"></i> All {{ Config::get('chatter.titles.discussion') }}</a>
+					<a href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}"><i class="chatter-bubble"></i> All {{ Config::get('chatter.titles.discussion') }}</a>
 					<ul class="nav nav-pills nav-stacked">
 						<?php $categories = DevDojo\Chatter\Models\Models::category()->all(); ?>
 						@foreach($categories as $category)
-							<li><a href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $category->slug }}"><div class="chatter-box" style="background-color:{{ $category->color }}"></div> {{ $category->name }}</a></li>
+							<li><a href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $category->slug }}"><div class="chatter-box" style="background-color:{{ $category->color }}"></div> {{ $category->name }}</a></li>
 						@endforeach
 					</ul>
 				</div>
@@ -70,7 +69,7 @@
 		        	<ul class="discussions">
 		        		@foreach($discussions as $discussion)
 				        	<li>
-				        		<a class="discussion_list" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.discussion') }}/{{ $discussion->category->slug }}/{{ $discussion->slug }}">
+				        		<a class="discussion_list" href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.discussion') }}/{{ $discussion->category->slug }}/{{ $discussion->slug }}">
 					        		<div class="chatter_avatar">
 					        			@if(Config::get('chatter.user.avatar_image_database_field'))
 					        				
@@ -130,7 +129,7 @@
 		    <div></div>
 		</div>
 
-    	<form id="chatter_form_editor" action="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.discussion') }}" method="POST">
+    	<form id="chatter_form_editor" action="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.discussion') }}" method="POST">
         	<div class="row">
 	        	<div class="col-md-7">
 		        	<!-- TITLE -->
@@ -171,7 +170,7 @@
             <div id="new_discussion_footer">
             	<input type='text' id="color" name="color" /><span class="select_color_text">Select a Color for this Discussion (optional)</span>
             	<button id="submit_discussion" class="btn btn-success pull-right"><i class="chatter-new"></i> Create {{ Config::get('chatter.titles.discussion') }}</button>
-            	<a href="/{{ Config::get('chatter.routes.home') }}" class="btn btn-default pull-right" id="cancel_discussion">Cancel</a>
+            	<a href="{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}" class="btn btn-default pull-right" id="cancel_discussion">Cancel</a>
             	<div style="clear:both"></div>
             </div>
         </form>
@@ -191,9 +190,10 @@
 @section(Config::get('chatter.yields.footer'))
 
 
+<script src="{{ asset('public/js/jquery-1.11.1.min.js') }}"></script>
 @if( $chatter_editor == 'tinymce' || empty($chatter_editor) )
-	<script src="/vendor/devdojo/chatter/assets/vendor/tinymce/tinymce.min.js"></script>
-	<script src="/vendor/devdojo/chatter/assets/js/tinymce.js"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/vendor/tinymce/tinymce.min.js')}}"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/tinymce.js')}}"></script>
 	<script>
 		var my_tinymce = tinyMCE;
 		$('document').ready(function(){
@@ -203,12 +203,12 @@
 		});
 	</script>
 @elseif($chatter_editor == 'simplemde')
-	<script src="/vendor/devdojo/chatter/assets/js/simplemde.min.js"></script>
-	<script src="/vendor/devdojo/chatter/assets/js/chatter_simplemde.js"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/simplemde.min.js')}}"></script>
+	<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/chatter_simplemde.js')}}"></script>
 @endif
 
-<script src="/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.js"></script>
-<script src="/vendor/devdojo/chatter/assets/js/chatter.js"></script>
+<script src="{{asset('/public/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.js')}}"></script>
+<script src="{{asset('/public/vendor/devdojo/chatter/assets/js/chatter.js')}}"></script>
 <script>
 	$('document').ready(function(){
 
@@ -217,7 +217,7 @@
 		});
 		$('#new_discussion_btn, #cancel_discussion').click(function(){
 			@if(Auth::guest())
-				window.location.href = "/{{ Config::get('chatter.routes.home') }}/login";
+				window.location.href = "{{ Config::get('app.url') }}/{{ Config::get('chatter.routes.home') }}/login";
 			@else
 				$('#new_discussion').slideDown();
 				$('#title').focus();
